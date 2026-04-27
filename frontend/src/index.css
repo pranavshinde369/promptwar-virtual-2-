@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -----------------------------------------------------------------------
+   Global base styles
+   Fonts loaded via index.html <link> for zero-JS loading.
+   ----------------------------------------------------------------------- */
+@layer base {
+  html {
+    /* Smooth scroll for skip-nav link jumps */
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply antialiased text-gray-900 dark:text-gray-100;
+  }
+  /* Ensure focus rings are always visible – critical for keyboard users */
+  :focus-visible {
+    outline: 2px solid theme("colors.orange.500");
+    outline-offset: 2px;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   High-contrast utility – togglable via JS if needed (WCAG 1.4.3)
+   ----------------------------------------------------------------------- */
+.high-contrast {
+  --tw-bg-opacity: 1;
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.high-contrast * {
+  border-color: #fff !important;
+}
+
+/* -----------------------------------------------------------------------
+   Screen-reader only (sr-only already in Tailwind, replicated for docs)
+   ----------------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
