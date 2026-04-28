@@ -63,6 +63,18 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """
+    Global catch-all exception handler to ensure API always returns 
+    structured JSON rather than raw HTML/text crash dumps.
+    """
+    logger.error(f"Unhandled Exception on {request.method} {request.url}: {exc}")
+    return JSONResponse(
+        status_code=500,
+        content={"error": "Internal Server Error", "message": "An unexpected system error occurred."},
+    )
+
 # ---------------------------------------------------------------------------
 # App Lifespan / Startup (GCP Integrations)
 # ---------------------------------------------------------------------------

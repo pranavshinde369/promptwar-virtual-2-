@@ -169,7 +169,7 @@ Each state drives UI-only changes; no server calls needed.
 
 | Criterion | What We Built |
 |---|---|
-| **Code Quality** | Fully decoupled layers (routes ↔ service ↔ models); custom React hook `useVoiceInput`; Google-style docstrings throughout Python; JSDoc comments on all React components |
+| **Code Quality** | **Enterprise-Grade:** Fully decoupled layers (routes ↔ service ↔ models); custom React hook `useVoiceInput`; Google-style docstrings; strict `mypy` typing; global FastAPI Exception handling; `.pre-commit-config.yaml` for `black`, `flake8`, and `isort` enforcement. |
 | **Security** | No hardcoded secrets; `python-dotenv`; Pydantic `field_validator` with length/enum/UUID-format checks; UUID v4 pattern validation on `session_id`; CORS origins from env |
 | **Efficiency** | All Gemini calls via `asyncio.to_thread` (non-blocking); `lru_cache` model init; `AbortController` on frontend fetches; form knowledge base has zero external deps |
 | **Testing** | 20 pytest tests — health check (3), timing header (1), chat success (4), Pydantic rejection (4), 503 failure (1), forms list (1), form detail (2), 404 (1), offline resilience (1); all offline via mocks; `conftest.py`; `pytest.ini` with `asyncio_mode = auto` |
