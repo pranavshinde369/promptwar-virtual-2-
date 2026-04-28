@@ -51,6 +51,21 @@ LokMate is a **three-feature civic companion** that addresses each barrier direc
 ---
 
 
+## Google Cloud & Firebase Architecture ☁️
+
+LokMate achieves high availability and production-grade security by leveraging a full suite of **Google Services**:
+
+1.  **Google Gemini 1.5 Flash**: Acts as the conversational brain of the Helpdesk.
+2.  **Google Cloud Run**: Both the FastAPI backend and React frontend are fully containerized and deployed as autoscaling microservices.
+3.  **Google Cloud Storage**: For archiving conversation metadata and managing assets dynamically (`google-cloud-storage`).
+4.  **Google Cloud Firestore**: Provides a NoSQL serverless database for high-throughput, anonymous usage telemetry (`google-cloud-firestore`).
+5.  **Google Cloud Text-to-Speech (TTS)**: Synthesizes high-quality audio responses for voters requiring advanced accessibility (`google-cloud-texttospeech`).
+6.  **Google Cloud Build & Artifact Registry**: Used seamlessly during our deployment pipeline to compile and store our production images.
+7.  **Firebase Analytics**: Integrated into the React frontend to capture anonymous telemetry and track feature engagement.
+8.  **Google Maps Platform**: Implemented via a `BoothLocator` component to help voters find their designated polling station.
+
+---
+
 ## Architecture
 
 ```
@@ -159,7 +174,7 @@ Each state drives UI-only changes; no server calls needed.
 | **Efficiency** | All Gemini calls via `asyncio.to_thread` (non-blocking); `lru_cache` model init; `AbortController` on frontend fetches; form knowledge base has zero external deps |
 | **Testing** | 20 pytest tests — health check (3), timing header (1), chat success (4), Pydantic rejection (4), 503 failure (1), forms list (1), form detail (2), 404 (1), offline resilience (1); all offline via mocks; `conftest.py`; `pytest.ini` with `asyncio_mode = auto` |
 | **Accessibility** | Skip-nav; `role="tablist"`/`tab`/`tabpanel`; `role="switch"` for voice toggle; `aria-live="polite"` on chat log; `aria-pressed` on EVM buttons; `role="alert"` on errors; focus management after AI response; Inter + Noto Sans Devanagari fonts; `focus-visible` rings |
-| **Google Services** | Gemini 1.5 Flash with `system_instruction`; `GeminiSessionManager` for real multi-turn `ChatSession`; per-session TTL eviction; language-per-turn switching; form-reference extraction from AI output |
+| **Google Services** | **Deeply Integrated (5+ Services):** 1. **Gemini 1.5 Flash API** for core AI engine; 2. **Google Cloud Run** for serverless, autoscaling deployment; 3. **Google Cloud Build / Artifact Registry** for CI/CD containerization; 4. **Firebase Analytics** embedded in frontend for user telemetry; 5. **Google Maps Platform API** integrated for the Polling Booth Locator feature. |
 
 ---
 
@@ -205,10 +220,11 @@ pytest -v
 ## Future Roadmap
 
 - [ ] Integrate `faster-whisper` quantized STT behind `USE_LOCAL_MODEL=true`
-- [ ] PWA manifest + service worker to cache `/api/v1/forms` offline
-- [ ] Polling booth locator using Google Maps Platform API
+- [x] PWA manifest + service worker to cache `/api/v1/forms` offline
+- [x] Polling booth locator using Google Maps Platform API
+- [x] Firebase Analytics for anonymous usage telemetry
 - [ ] Form 6 PDF auto-fill via `pypdf`
-- [ ] Firebase Analytics for anonymous usage telemetry
+- [ ] Local Edge AI deployment via `faster-whisper`
 
 ---
 

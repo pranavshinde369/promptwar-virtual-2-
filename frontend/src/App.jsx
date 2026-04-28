@@ -2,6 +2,7 @@ import { useState } from "react";
 import ChatBot from "./components/ChatBot";
 import EvmSimulator from "./components/EvmSimulator";
 import FormNavigator from "./components/FormNavigator";
+import BoothLocator from "./components/BoothLocator";
 
 /**
  * App.jsx – Root application component for LokMate.
@@ -168,7 +169,12 @@ export default function App() {
                     hidden={activeTab !== "formguide"}
                     className="pb-6"
                 >
-                    {activeTab === "formguide" && <FormNavigator />}
+                    {activeTab === "formguide" && (
+                        <>
+                            <FormNavigator />
+                            <BoothLocator />
+                        </>
+                    )}
                 </div>
             </main>
 

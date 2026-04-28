@@ -22,6 +22,7 @@ from slowapi.errors import RateLimitExceeded
 from dotenv import load_dotenv
 
 from backend.routers import helpdesk, form_data
+from backend.gcp_integrations import gcp_manager
 
 load_dotenv()
 
@@ -61,6 +62,20 @@ app = FastAPI(
 # Attach rate limiter to the app state
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# ---------------------------------------------------------------------------
+# App Lifespan / Startup (GCP Integrations)
+# ---------------------------------------------------------------------------
+@app.on_event("startup")
+async def startup_event():
+    """
+    Initialize Google Cloud connections early to avoid cold-start latency 
+    during voter interactions.
+    """
+    logger.info("Initializing Google Cloud Platform integrations...")
+    gcp_manager.get_storage_client()
+    # TTS and Firestore connections are lazily evaluated in gcp_manager
+    logger.info("GCP integrations ready.")
 
 # ---------------------------------------------------------------------------
 # CORS
