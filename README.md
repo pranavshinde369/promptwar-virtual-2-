@@ -34,6 +34,23 @@ LokMate is a **three-feature civic companion** that addresses each barrier direc
 
 ---
 
+## Visual Walkthrough
+
+### 🗣️ AI Voter Helpdesk
+*Multi-turn conversation with Gemini 1.5 Flash in regional languages.*
+![AI Voter Helpdesk](./screenshots/helpdesk.png)
+
+### 📟 EVM Practice Simulator
+*Realistic ballot unit with VVPAT animation to reduce polling-day anxiety.*
+![EVM Simulator](./screenshots/evm_simulator.png)
+
+### 📋 Interactive Form Guide
+*Step-by-step guidance for complex ECI forms with progress tracking.*
+![Form Guide](./screenshots/form_guide.png)
+
+---
+
+
 ## Architecture
 
 ```
